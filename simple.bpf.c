@@ -13,11 +13,14 @@ long ringbuffer_flags = 0;
 
 SEC("kprobe/sys_execve")
 int kprobe__sys_execve(struct pt_regs *ctx)
+
 {
     __u64 id = bpf_get_current_pid_tgid();
     __u32 tgid = id >> 32;
-    proc_info *process;
+    id = bpf_get_current_uid_gid();
+    __u32 uid = id >> 32;
 
+    proc_info *process;
     // Reserve space on the ringbuffer for the sample
     process = bpf_ringbuf_reserve(&events, sizeof(proc_info), ringbuffer_flags);
     if (!process) {
@@ -25,9 +28,8 @@ int kprobe__sys_execve(struct pt_regs *ctx)
     }
 
     process->pid = tgid;
+    process->uid = uid; 
     bpf_get_current_comm(&process->comm, 100);
-    *(process->msg) = "fuck you!";
-    strcpy("fuck you!",process->msg);
     bpf_ringbuf_submit(process, ringbuffer_flags);
     return 0;
 }

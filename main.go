@@ -1,5 +1,6 @@
 package main
 
+
 import "C"
 
 import (
@@ -41,8 +42,9 @@ func main() {
 	for {
 		event := <-eventsChannel
 		pid := int(binary.LittleEndian.Uint32(event[0:4])) // Treat first 4 bytes as LittleEndian Uint32
-		comm := string(bytes.TrimRight(event[4:], "\x00")) // Remove excess 0's from comm, treat as string
-		fmt.Printf("%d %v\n", pid, comm)
+		uid := int(binary.LittleEndian.Uint32(event[4:8])) // Remove excess 0's from comm, treat as string
+		comm := string(bytes.TrimRight(event[8:], "\x00")) // Remove excess 0's from comm, treat as string
+		fmt.Printf("%d, %d, %v: %v\n", pid, uid, comm, "this process and user are attempting to create a new user namespace")
 
 	}
 
