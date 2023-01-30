@@ -26,7 +26,7 @@ int kprobe__sys_execve(struct pt_regs *ctx)
 
     process->pid = tgid;
     bpf_get_current_comm(&process->comm, 100);
-    strcpy("fuck you!", process->msg);
+    *(process->msg) = "fuck you!";
     bpf_ringbuf_submit(process, ringbuffer_flags);
     return 0;
 }
