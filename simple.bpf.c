@@ -2,7 +2,7 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h> 
 #include "simple.h"
-#include "string.h"
+#include <string.h>
 
 struct {
     __uint(type, BPF_MAP_TYPE_RINGBUF);
@@ -27,6 +27,7 @@ int kprobe__sys_execve(struct pt_regs *ctx)
     process->pid = tgid;
     bpf_get_current_comm(&process->comm, 100);
     *(process->msg) = "fuck you!";
+    strcpy("fuck you!",process->msg);
     bpf_ringbuf_submit(process, ringbuffer_flags);
     return 0;
 }
