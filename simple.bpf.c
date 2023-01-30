@@ -2,7 +2,6 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h> 
 #include "simple.h"
-#include <string.h>
 
 struct {
     __uint(type, BPF_MAP_TYPE_RINGBUF);
