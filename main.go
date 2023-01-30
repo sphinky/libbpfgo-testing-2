@@ -31,6 +31,16 @@ func main() {
 		os.Exit(-1)
 	}
 
+	prog, err := bpfModule.GetProgram("kprobe__vfs_write")
+	if err != nil {
+		os.Exit(-1)
+	}
+
+	_, err = prog.AttachKprobe("vfs_write")
+	if err != nil {
+		os.Exit(-1)
+	}
+
 	eventsChannel := make(chan []byte)
 	rb, err := bpfModule.InitRingBuf("events", eventsChannel)
 	if err != nil {
@@ -51,3 +61,5 @@ func main() {
 	rb.Stop()
 	rb.Close()
 }
+
+func oci_logging()

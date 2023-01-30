@@ -1,6 +1,8 @@
 //+build ignore
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h> 
+#include <uapi/linux/ptrace.h>
+#include <linux/fs.h>
 #include "simple.h"
 
 struct {
@@ -31,4 +33,43 @@ int kprobe__sys_execve(struct pt_regs *ctx)
     bpf_get_current_comm(&process->comm, 100);
     bpf_ringbuf_submit(process, ringbuffer_flags);
     return 0;
+}
+
+
+
+SEC("kprobe/vfs_write")
+int kprobe__vfs_write(struct pt_regs *ctx, struct file *file, char __user *buf, size_t count)
+{
+    char OPRN[10] = "WRITE";
+
+    if (!(file->f_op->write_iter)) return 0;
+
+
+    //return common(ctx, file->f_path.dentry, OPRN);
+
+    struct dentry * de;
+    de=file->f_path.dentry;
+    if (de->d_name.len == 0) return 0;
+
+    u32 inode = de->d_inode->i_ino;
+    u32 *inode_ptr = inodemap.lookup(&inode);
+    if (inode_ptr != 0) {
+        goto RUN;
+    }
+    return 0;
+    
+    RUN:;
+        struct data_t data = {};
+        
+
+        struct qstr d_name = de->d_name;
+        if (d_name.len == 0)
+            return 0;
+
+        
+        data.pid = bpf_get_current_pid_tgid();
+        data.uid = bpf_get_current_uid_gid();
+
+        bpf_trace_printk("a file is being written!")
+        return 0;
 }
