@@ -43,6 +43,7 @@ func main() {
 		pid := int(binary.LittleEndian.Uint32(event[0:4])) // Treat first 4 bytes as LittleEndian Uint32
 		comm := string(bytes.TrimRight(event[4:], "\x00")) // Remove excess 0's from comm, treat as string
 		fmt.Printf("%d %v\n", pid, comm)
+
 	}
 
 	rb.Stop()
