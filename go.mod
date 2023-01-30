@@ -1,4 +1,4 @@
-module github.com/grantseltzer/libbpfgoexample
+module sphinx/libbpfgo
 
 go 1.15
 

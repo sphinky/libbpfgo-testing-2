@@ -12,7 +12,8 @@ RUN apt-get update && \
         clang \
         llvm \
         libelf-dev \
-        bpftool
+        bpftool \
+        gcc-multilib
 
 # Install Go specific version.
 RUN apt-get install -y wget && \
@@ -23,7 +24,10 @@ RUN apt-get install -y wget && \
     rm -rf go${GOVERSION}.linux-${ARCH}.tar.gz
 
 # Setup working directory.
+RUN mkdir -p /usr/include/bits
 RUN mkdir -p /app
+RUN cp -nr /usr/include/x86_64-linux-gnu/bits/* /usr/include/bits/
+
 WORKDIR /app
 COPY * ./
 
