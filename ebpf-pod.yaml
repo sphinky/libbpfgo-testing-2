@@ -12,10 +12,9 @@ spec:
     - image: iad.ocir.io/idlcuhhknffw/ebpf-new:latest
       imagePullPolicy: IfNotPresent
       name: ebpf-new
-      resources: {}
       securityContext:
         privileged: true
-      command: ['./run-ebpf-prog']
+      command: ['./runebpf']
       volumeMounts:
       - mountPath: /sys/kernel/debug
         name: debug
