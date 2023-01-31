@@ -30,12 +30,12 @@ func main() {
 		os.Exit(-1)
 	}
 
-	prog2, err := bpfModule.GetProgram("kprobe__vfs_write")
+	prog2, err := bpfModule.GetProgram("kprobe__vfs_rename")
 	if err != nil {
 		os.Exit(-1)
 	}
 
-	_, err = prog2.AttachKprobe("vfs_write")
+	_, err = prog2.AttachKprobe("vfs_rename")
 	if err != nil {
 		os.Exit(-1)
 	}
