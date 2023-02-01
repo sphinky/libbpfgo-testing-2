@@ -22,11 +22,12 @@ func main() {
 
 	
 	bpfModule.BPFLoadObject()
-	_, err := bpfModule.GetProgram("kprobe__sys_execve")
+	prog, err := bpfModule.GetProgram("kprobe__sys_execve")
 	if err != nil {
 		os.Exit(-1)
 	}
-
+	
+	USE(prog);
 	/*_, err = prog.AttachKprobe("__x64_sys_execve")
 	if err != nil {
 		os.Exit(-1)
@@ -68,4 +69,8 @@ func main() {
 
 	rb.Stop()
 	rb.Close()
+}
+
+func use(x interface{}) {
+	return 0;
 }
