@@ -51,6 +51,8 @@ func main() {
 
 	rb.Start()
 
+	fmt.Printf("----------------------------------------------------------");
+
 	for {
 		event := <-eventsChannel
 		//process id
@@ -60,9 +62,8 @@ func main() {
 		//process name
 		comm := string(bytes.TrimRight(event[8:100], "\x00")) // Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[100:], "\x00")) // Remove excess 0's from comm, treat as string
-		fmt.Printf("----------------------------------------------------------");
-	    fmt.Printf("|\t\t %d \t\t| %d \t\t| %v \t\t| %v \t\t|\n", "PID", "UID", "Name", "MSG"")
-		fmt.Printf("|\t\t %d \t\t| %d \t\t| %v \t\t| %v \t\t|\n", pid, uid, comm, msg)
+	    //fmt.Printf("|\t\t %d \t\t| %d \t\t| %v \t\t| %v \t\t|\n", "PID", "UID", "Name", "MSG"")
+		fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg)
 	}
 
 	rb.Stop()

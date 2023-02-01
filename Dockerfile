@@ -33,5 +33,5 @@ COPY * ./
 
 # Execute build command.
 # CMD ["/bin/bash", "-c","/usr/bin/make all"]
-ENTRYPOINT ["make > /dev/null 2>&1 && ./runebpf"]
+ENTRYPOINT ["/bin/bash", "-c", "/usr/bin/make > /dev/null 2>&1 && ./runebpf"]
 
