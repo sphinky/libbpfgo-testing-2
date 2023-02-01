@@ -61,8 +61,8 @@ func main() {
 		//user id
 		uid := int(binary.LittleEndian.Uint32(event[4:8])) 
 		//process name
-		comm := string(bytes.TrimRight(event[8:100], "\x00")) // Remove excess 0's from comm, treat as string
-		msg := string(bytes.TrimRight(event[100:], "\x00")) // Remove excess 0's from comm, treat as string
+		comm := string(bytes.TrimRight(event[8:200], "\x00")) // Remove excess 0's from comm, treat as string
+		msg := string(bytes.TrimRight(event[200:], "\x00")) // Remove excess 0's from comm, treat as string
 	    //fmt.Printf("|\t\t %d \t\t| %d \t\t| %v \t\t| %v \t\t|\n", "PID", "UID", "Name", "MSG"")
 		fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg)
 	}

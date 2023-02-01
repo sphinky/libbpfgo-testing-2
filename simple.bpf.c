@@ -1,6 +1,4 @@
-//+build ignore
 #include "vmlinux.h"
-//#include <linux/fs.h>
 #include <bpf/bpf_helpers.h>
 #include <string.h>
 #include "simple.h"
@@ -31,7 +29,7 @@ int kprobe__sys_execve(struct pt_regs *ctx, void * pic )
     process->pid = tgid;
     process->uid = uid; 
     strcpy(process->msg, "execve event!!!!!!");
-    bpf_get_current_comm(&process->comm, 100);
+    bpf_get_current_comm(&process->comm, 200);
     bpf_ringbuf_submit(process, ringbuffer_flags);
     return 0;
 }
@@ -58,10 +56,8 @@ int kprobe__vfs_rename(struct pt_regs *ctx )
     process->pid = tgid;
     process->uid = uid; 
     strcpy(process->msg, "file rename event!!!!!!");
-    bpf_get_current_comm(&process->comm, 100);
+    bpf_get_current_comm(&process->comm, 200);
     bpf_ringbuf_submit(process, ringbuffer_flags);
-    return 0;
-
     return 0;
 }
 
