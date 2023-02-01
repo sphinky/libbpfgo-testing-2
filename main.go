@@ -71,6 +71,6 @@ func main() {
 	rb.Close()
 }
 
-func use(x interface{}) {
+func USE(x interface{}) {
 	return 0;
 }
