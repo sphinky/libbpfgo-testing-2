@@ -88,7 +88,7 @@ func main() {
 		comm := string(bytes.TrimRight(event[8:200], "\x00")) // Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[200:], "\x00")) // Remove excess 0's from comm, treat as string
 	   
-		event := EbpfEvent{pid := pid,uid:= uid,comm :=comm,msg:=msg);
+		event := &EbpfEvent{pid := pid,uid:= uid,comm :=comm,msg:=msg);
 		//fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg);
 		putMsgInStream(ociMessageEndpoint, ociStreamOcid, event);
 	}
