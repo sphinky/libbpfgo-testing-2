@@ -26,7 +26,6 @@ spec:
         name: ebpf-new
         securityContext:
           privileged: true
-        command: ['./runebpf']
         volumeMounts:
         - mountPath: /sys/kernel/debug
           name: debug
