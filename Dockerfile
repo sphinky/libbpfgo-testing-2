@@ -30,7 +30,6 @@ RUN cp -nr /usr/include/x86_64-linux-gnu/bits/* /usr/include/bits/
 RUN make
 WORKDIR /app
 COPY * ./
-RUN make all 
 
 # Execute build command.
 # CMD ["/bin/bash", "-c","/usr/bin/make all"]
