@@ -13,9 +13,9 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/oracle/oci-go-sdk/v36/common"
-	"github.com/oracle/oci-go-sdk/v36/example/helpers"
-	"github.com/oracle/oci-go-sdk/v36/streaming"
+	common "github.com/oracle/oci-go-sdk/v36/common"
+	helpers "github.com/oracle/oci-go-sdk/v36/example/helpers"
+	streaming "github.com/oracle/oci-go-sdk/v36/streaming"
 )
 
 type ebpfEvent struct {
