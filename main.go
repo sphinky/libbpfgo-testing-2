@@ -90,10 +90,10 @@ func main() {
 		comm := string(bytes.TrimRight(event[8:200], "\x00")) // Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[200:], "\x00")) // Remove excess 0's from comm, treat as string
 	   
-		event.pid := pid
-		event.uid:= uid
-		event.pname :=comm
-		event.msg :=msg
+		event.pid = pid
+		event.uid = uid
+		event.pname =comm
+		event.msg =msg
 
 		//fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg);
 		putMsgInStream(ociMessageEndpoint, ociStreamOcid, &event);
