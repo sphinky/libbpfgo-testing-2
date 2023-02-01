@@ -14,9 +14,9 @@ import (
 	"context"
 	"strconv"
 
-	common "github.com/oracle/oci-go-sdk/v36/common"
-	helpers "github.com/oracle/oci-go-sdk/v36/example/helpers"
-	streaming "github.com/oracle/oci-go-sdk/v36/streaming"
+	common "github.com/oracle/oci-go-sdk/v65/common"
+	helpers "github.com/oracle/oci-go-sdk/v65/example/helpers"
+	streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 
 	
 	auth "github.com/oracle/oci-go-sdk/v65/common/auth"
