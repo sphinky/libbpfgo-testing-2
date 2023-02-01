@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - image: iad.ocir.io/idlcuhhknffw/ebpf-new:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: ebpf-new
         securityContext:
           privileged: true
