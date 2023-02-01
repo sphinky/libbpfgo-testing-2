@@ -128,7 +128,7 @@ func putMsgInStream(streamEndpoint string, streamOcid string, event *EbpfEvent) 
 					Value: []byte("hello")
 				}
 			}
-		}
+		},
 	}
 
 	// Send the request using the service client
