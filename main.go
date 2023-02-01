@@ -125,10 +125,10 @@ func putMsgInStream(streamEndpoint string, streamOcid string, event *EbpfEvent) 
 			Messages: []streaming.PutMessagesDetailsEntry{
 				{
 					Key: []byte("key dummy-0-" + strconv.Itoa(i)),
-					Value: []byte(event.pid+"|"+event.uid+"|"+event.comm+"|"+event.msg+"|")
+					Value: []byte(event.pid+"|"+event.uid+"|"+event.pname+"|"+event.msg+"|")
 				}
 			}
-		},
+		}
 	}
 
 	// Send the request using the service client
