@@ -19,6 +19,8 @@ func main() {
 	}
 	defer bpfModule.Close()
 
+
+	/*
 	bpfModule.BPFLoadObject()
 	prog, err := bpfModule.GetProgram("kprobe__sys_execve")
 	if err != nil {
@@ -29,6 +31,7 @@ func main() {
 	if err != nil {
 		os.Exit(-1)
 	}
+	*/
 
 	prog2, err := bpfModule.GetProgram("kprobe__vfs_rename")
 	if err != nil {
@@ -54,9 +57,12 @@ func main() {
 		pid := int(binary.LittleEndian.Uint32(event[0:4])) // Treat first 4 bytes as LittleEndian Uint32
 		//user id
 		uid := int(binary.LittleEndian.Uint32(event[4:8])) 
+		//process name
 		comm := string(bytes.TrimRight(event[8:100], "\x00")) // Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[100:], "\x00")) // Remove excess 0's from comm, treat as string
-		fmt.Printf("%d, \t\t %d, \t\t %v: \t\t %v\n", pid, uid, comm, msg)
+		fmt.Printf("----------------------------------------------------------");
+	    fmt.Printf("|\t\t %d \t\t| %d \t\t| %v \t\t| %v \t\t|\n", "PID", "UID", "Name", "MSG"")
+		fmt.Printf("|\t\t %d \t\t| %d \t\t| %v \t\t| %v \t\t|\n", pid, uid, comm, msg)
 	}
 
 	rb.Stop()
