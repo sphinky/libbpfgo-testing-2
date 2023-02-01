@@ -7,6 +7,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"os"
+	"context"
 
 	bpf "github.com/aquasecurity/tracee/libbpfgo"
 
@@ -16,14 +17,21 @@ import (
 	common "github.com/oracle/oci-go-sdk/v36/common"
 	helpers "github.com/oracle/oci-go-sdk/v36/example/helpers"
 	streaming "github.com/oracle/oci-go-sdk/v36/streaming"
+
+	
+	auth "github.com/oracle/oci-go-sdk/v65/common/auth"
+	identity "github.com/oracle/oci-go-sdk/v65/identity"
 )
 
-type ebpfEvent struct {
+type EbpfEvent struct {
 	pid int
 	uid  int
 	pname string
 	msg string
 }
+
+const ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"
+const ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaazvuhnbqangngfi52tognl6bcjwviefusj44kvuk6eccf37tvy6sa"
 
 func main() {
 
@@ -42,6 +50,7 @@ func main() {
 	}
 	
 	USE(prog);
+
 	/*_, err = prog.AttachKprobe("__x64_sys_execve")
 	if err != nil {
 		os.Exit(-1)
@@ -92,21 +101,15 @@ func USE(x interface{}) {
 	
 }
 
-const ociMessageEndpoint = "<stream_message_endpoint>"
-const ociStreamOcid = "<stream_OCID>"
-const ociConfigFilePath = "<config_file_path>"
-const ociProfileName = "<config_file_profile_name>"
+func putMsgInStream(streamEndpoint string, streamOcid string, event EbpfEvent) {
 
+	provider, err := auth.InstancePrincipalConfigurationProvider()
+	helpers.FatalIfError(err)
 
-func putMsgInStream(streamEndpoint string, streamOcid string, event ebpfEvent) {
+	streamClient, err := identity.NewIdentityClientWithConfigurationProvider(provider)
+	
 	fmt.Println("Stream endpoint for put msg api is: " + streamEndpoint)
-
-	provider, err := common.ConfigurationProviderFromFileWithProfile(ociConfigFilePath, ociProfileName, "")
-	helpers.FatalIfError(err)
-
-	streamClient, err := streaming.NewStreamClientWithConfigurationProvider(provider, streamEndpoint)
-	helpers.FatalIfError(err)
-
+	
 	// Create a request and dependent object(s).
 
 	putMsgReq := streaming.PutMessagesRequest{
@@ -116,7 +119,7 @@ func putMsgInStream(streamEndpoint string, streamOcid string, event ebpfEvent) {
 			Messages: []streaming.PutMessagesDetailsEntry{
 				{
 					Key: []byte("key dummy-0-" + strconv.Itoa(i)),
-					Value: []byte(event.pid+"|"+event.uid+"|"+event.comm+"|"+event.msg);
+					Value: []byte(event.pid+"|"+event.uid+"|"+event.comm+"|"+event.msg+"|");
 				}
 			}
 		},
