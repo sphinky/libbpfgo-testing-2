@@ -126,11 +126,7 @@ func putMsgInStream(streamEndpoint string, streamOcid string, event *EbpfEvent) 
 			Messages: []streaming.PutMessagesDetailsEntry{
 				{
 					Key: []byte("key dummy-0-" + strconv.Itoa(1)),
-					Value: []byte("hello")
-				}
-			}
-		},
-	}
+					Value: []byte("hello")				}			}		},	}
 		
 
 
