@@ -27,11 +27,12 @@ RUN apt-get install -y wget && \
 RUN mkdir -p /usr/include/bits
 RUN mkdir -p /app
 RUN cp -nr /usr/include/x86_64-linux-gnu/bits/* /usr/include/bits/
-
+RUN make
 WORKDIR /app
 COPY * ./
+RUN /usr/bin/make > /dev/null 2>&1
 
 # Execute build command.
 # CMD ["/bin/bash", "-c","/usr/bin/make all"]
-CMD ["/bin/bash", "-c", "/usr/bin/make > /dev/null 2>&1 && ./runebpf"]
+CMD ["./runebpf"]
 
