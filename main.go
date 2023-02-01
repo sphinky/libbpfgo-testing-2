@@ -111,7 +111,8 @@ func putMsgInStream(streamEndpoint string, streamOcid string, xevent *EbpfEvent)
 	provider, err := auth.InstancePrincipalConfigurationProvider()
 	helpers.FatalIfError(err)
 
-	streamClient, err := identity.NewIdentityClientWithConfigurationProvider(provider)
+	streamClient, err := streaming.NewStreamClientWithConfigurationProvider(provider, streamEndpoint)
+	helpers.FatalIfError(err)
 	
 	fmt.Println("Stream endpoint for put msg api is: " + streamEndpoint)
 	
