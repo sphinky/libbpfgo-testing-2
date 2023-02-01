@@ -11,7 +11,6 @@ import (
 
 	bpf "github.com/aquasecurity/tracee/libbpfgo"
 
-	"context"
 	"strconv"
 
 	common "github.com/oracle/oci-go-sdk/v65/common"
@@ -96,7 +95,7 @@ func main() {
 		xevent.msg =msg
 
 		//fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg);
-		putMsgInStream(ociMessageEndpoint, ociStreamOcid, xevent);
+		putMsgInStream(ociMessageEndpoint, ociStreamOcid, &xevent);
 	}
 
 	rb.Stop()
