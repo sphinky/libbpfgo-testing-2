@@ -19,7 +19,6 @@ import (
 
 	
 	auth "github.com/oracle/oci-go-sdk/v65/common/auth"
-	identity "github.com/oracle/oci-go-sdk/v65/identity"
 )
 
 type EbpfEvent struct {
