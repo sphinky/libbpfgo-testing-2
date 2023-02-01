@@ -20,14 +20,14 @@ func main() {
 	defer bpfModule.Close()
 
 
-	/*
+	
 	bpfModule.BPFLoadObject()
 	prog, err := bpfModule.GetProgram("kprobe__sys_execve")
 	if err != nil {
 		os.Exit(-1)
 	}
 
-	_, err = prog.AttachKprobe("__x64_sys_execve")
+	/*_, err = prog.AttachKprobe("__x64_sys_execve")
 	if err != nil {
 		os.Exit(-1)
 	}
