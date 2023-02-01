@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: DaemonSet
+metadata:
+  labels:
+    name: ebpf-new-daemon-set
+    version: v1
+  name: ebpf-new-daemon-set
+  namespace: ebpf
+spec:
+  selector:
+    matchLabels:
+      name: ebpf-new-pod
+      version: v1
+  template:
+    metadata:
+      annotations:
+      labels:
+        name: ebpf-new-pod
+        version: v1
+      name: ebpf-new-pod
+      namespace: ebpf
+    spec:
+      containers:
+      - image: iad.ocir.io/idlcuhhknffw/ebpf-new:latest
+        imagePullPolicy: IfNotPresent
+        name: ebpf-new
+        securityContext:
+        privileged: true
+        command: ['./runebpf']
+        volumeMounts:
+        - mountPath: /sys/kernel/debug
+          name: debug
+      hostPID: true
+      hostNetwork: true
+      imagePullSecrets:
+      - name: ocirsecret
+      volumes:
+      - name: debug
+        hostPath:
+          path: /sys/kernel/debug
+          type: Directory

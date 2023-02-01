@@ -3,25 +3,25 @@ kind: Pod
 metadata:
   annotations:
   labels:
-    app: ebpf-new
+    app: ebpf-new-ppod
     version: v1
   name: ebpf-new-pod
   namespace: ebpf
 spec:
   containers:
-    - image: iad.ocir.io/idlcuhhknffw/ebpf-new:latest
-      imagePullPolicy: IfNotPresent
-      name: ebpf-new
-      securityContext:
-        privileged: true
-      command: ['./runebpf']
-      volumeMounts:
-      - mountPath: /sys/kernel/debug
-        name: debug
+  - image: iad.ocir.io/idlcuhhknffw/ebpf-new:latest
+    imagePullPolicy: IfNotPresent
+    name: ebpf-new
+    securityContext:
+      privileged: true
+    command: ['./runebpf']
+    volumeMounts:
+    - mountPath: /sys/kernel/debug
+      name: debug
   hostPID: true
   hostNetwork: true
   imagePullSecrets:
-    - name: ocirsecret
+  - name: ocirsecret
   volumes:
   - name: debug
     hostPath:

@@ -50,10 +50,13 @@ func main() {
 
 	for {
 		event := <-eventsChannel
+		//process id
 		pid := int(binary.LittleEndian.Uint32(event[0:4])) // Treat first 4 bytes as LittleEndian Uint32
-		uid := int(binary.LittleEndian.Uint32(event[4:8])) // Remove excess 0's from comm, treat as string
-		comm := string(bytes.TrimRight(event[8:], "\x00")) // Remove excess 0's from comm, treat as string
-		fmt.Printf("%d, %d, %v: %v\n", pid, uid, comm, "this process and user are attempting to create a new user namespace")
+		//user id
+		uid := int(binary.LittleEndian.Uint32(event[4:8])) 
+		comm := string(bytes.TrimRight(event[8:100], "\x00")) // Remove excess 0's from comm, treat as string
+		msg := string(bytes.TrimRight(event[100:], "\x00")) // Remove excess 0's from comm, treat as string
+		fmt.Printf("%d, \t\t %d, \t\t %v: \t\t %v\n", pid, uid, comm, msg)
 	}
 
 	rb.Stop()
