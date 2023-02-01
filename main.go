@@ -78,6 +78,8 @@ func main() {
 	//fmt.Printf("----------------------------------------------------------\n");
 	//fmt.Printf("| %d \t| %d \t| %v \t| %v \t|\n", "PID", "UID", "Name", "MSG"");
 
+	event := EbpfEvent{}
+
 	for {
 		event := <-eventsChannel
 		//process id
@@ -88,9 +90,13 @@ func main() {
 		comm := string(bytes.TrimRight(event[8:200], "\x00")) // Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[200:], "\x00")) // Remove excess 0's from comm, treat as string
 	   
-		event := &EbpfEvent{pid := pid,uid:= uid,comm :=comm,msg:=msg);
+		event.pid := pid
+		event.uid:= uid
+		event.pname :=comm
+		event.msg :=msg
+
 		//fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg);
-		putMsgInStream(ociMessageEndpoint, ociStreamOcid, event);
+		putMsgInStream(ociMessageEndpoint, ociStreamOcid, &event);
 	}
 
 	rb.Stop()
@@ -101,7 +107,7 @@ func USE(x interface{}) {
 	
 }
 
-func putMsgInStream(streamEndpoint string, streamOcid string, event EbpfEvent) {
+func putMsgInStream(streamEndpoint string, streamOcid string, event *EbpfEvent) {
 
 	provider, err := auth.InstancePrincipalConfigurationProvider()
 	helpers.FatalIfError(err)
