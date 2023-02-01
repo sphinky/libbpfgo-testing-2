@@ -96,7 +96,7 @@ func main() {
 		event.msg =msg
 
 		//fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg);
-		putMsgInStream(ociMessageEndpoint, ociStreamOcid, &event);
+		putMsgInStream(ociMessageEndpoint, ociStreamOcid, event);
 	}
 
 	rb.Stop()
