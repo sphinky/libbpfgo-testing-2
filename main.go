@@ -72,5 +72,5 @@ func main() {
 }
 
 func USE(x interface{}) {
-	return 0;
+	
 }
