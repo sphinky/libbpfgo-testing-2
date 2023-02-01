@@ -106,7 +106,7 @@ func USE(x interface{}) {
 	
 }
 
-func putMsgInStream(streamEndpoint string, streamOcid string, event *EbpfEvent) {
+func putMsgInStream(streamEndpoint string, streamOcid string, xevent *EbpfEvent) {
 
 	provider, err := auth.InstancePrincipalConfigurationProvider()
 	helpers.FatalIfError(err)
