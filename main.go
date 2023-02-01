@@ -22,7 +22,7 @@ func main() {
 
 	
 	bpfModule.BPFLoadObject()
-	prog, err := bpfModule.GetProgram("kprobe__sys_execve")
+	_, err := bpfModule.GetProgram("kprobe__sys_execve")
 	if err != nil {
 		os.Exit(-1)
 	}
