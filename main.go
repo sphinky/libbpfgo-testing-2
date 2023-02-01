@@ -119,17 +119,20 @@ func putMsgInStream(streamEndpoint string, streamOcid string, event *EbpfEvent) 
 	// Create a request and dependent object(s).
 
 
+	putMsgReq := streaming.PutMessagesRequest{
+		StreamId: common.String(streamOcid),
+		PutMessagesDetails: streaming.PutMessagesDetails{
+			
+			Messages: []streaming.PutMessagesDetailsEntry{
+				{
+					Key: []byte("key dummy-0-" + strconv.Itoa(1)),
+					Value: []byte("hello")
+				}
+			}
+		},
+	}
+		
 
-
-	putMsgReq := streaming.PutMessagesRequest{StreamId: common.String(streamOcid),
-			PutMessagesDetails: streaming.PutMessagesDetails{
-				// we are batching 2 messages for each Put Request
-				Messages: []streaming.PutMessagesDetailsEntry{
-					{Key: []byte("key dummy-0-" + strconv.Itoa(i)),
-						Value: []byte("value dummy-" + strconv.Itoa(i))},
-					{Key: []byte("key dummy-1-" + strconv.Itoa(i)),
-						Value: []byte("value dummy-" + strconv.Itoa(i))}}},
-		}
 
 	// Send the request using the service client
 	putMsgResp, err := streamClient.PutMessages(context.Background(), putMsgReq)
