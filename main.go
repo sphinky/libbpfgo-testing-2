@@ -108,7 +108,7 @@ func putMsgInStream(streamEndpoint string, streamOcid string, xevent *EbpfEvent)
 	streamClient, err := streaming.NewStreamClientWithConfigurationProvider(provider, streamEndpoint)
 	helpers.FatalIfError(err)
 
-	fmt.Println("Stream endpoint for put msg api is: " + streamEndpoint)
+	// fmt.Println("Stream endpoint for put msg api is: " + streamEndpoint)
 
 	// Create a request and dependent object(s).
 
@@ -122,11 +122,11 @@ func putMsgInStream(streamEndpoint string, streamOcid string, xevent *EbpfEvent)
 
 	// Send the request using the service client
 
-	fmt.Println("Event sent to stream : " + strconv.Itoa(xevent.pid) + "|" + strconv.Itoa(xevent.uid) + "|" + xevent.pname + "|" + xevent.msg + "|")
+	//fmt.Println("Event sent to stream : " + strconv.Itoa(xevent.pid) + "|" + strconv.Itoa(xevent.uid) + "|" + xevent.pname + "|" + xevent.msg + "|")
 
 	putMsgResp, err := streamClient.PutMessages(context.Background(), putMsgReq)
 	helpers.FatalIfError(err)
 
-	// Retrieve value from the response.
-	fmt.Println(putMsgResp)
+	//Retrieve value from the response.
+	//fmt.Println(putMsgResp)
 }
