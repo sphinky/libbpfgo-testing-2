@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
-	"fmt"
+	//"fmt"
 	"os"
 
 	"strconv"
@@ -126,6 +126,7 @@ func putMsgInStream(streamEndpoint string, streamOcid string, xevent *EbpfEvent)
 
 	putMsgResp, err := streamClient.PutMessages(context.Background(), putMsgReq)
 	helpers.FatalIfError(err)
+	USE(putMsgResp)
 
 	//Retrieve value from the response.
 	//fmt.Println(putMsgResp)
