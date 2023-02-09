@@ -1,10 +1,9 @@
-package main
+package main_stdout
 
 import "C"
 
 import (
 	"bytes"
-	"context"
 	"encoding/binary"
 	"fmt"
 	bpf "github.com/aquasecurity/tracee/libbpfgo"
