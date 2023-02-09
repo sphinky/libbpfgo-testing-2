@@ -51,7 +51,7 @@ func main() {
 		// Remove excess 0's from comm, treat as string
 		comm := string(bytes.TrimRight(event[8:200], "\x00"))
 		// Remove excess 0's from comm, treat as string
-		msg := string(bytes.TrimRight(event[200:], "\x00"))
+		msg := string(bytes.TrimRight(event[200:400], "\x00"))
 
 		fmt.Printf("| %-10d \t| %-10d \t| %-20s \t| %-30s \t|\n", pid, uid, comm, msg)
 	}
