@@ -20,7 +20,7 @@ type EbpfEvent struct {
 
 func main() {
 
-	bpfModule, err := bpf.NewModuleFromFile("simple.bpf.o")
+	bpfModule, err := bpf.NewModuleFromFile("probe.bpf.o")
 	if err != nil {
 		os.Exit(-1)
 	}

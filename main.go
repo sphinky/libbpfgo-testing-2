@@ -32,24 +32,25 @@ const ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaazvuhnbqangngfi52tognl6bcjwvi
 
 func main() {
 
-	bpfModule, err := bpf.NewModuleFromFile("simple.bpf.o")
+	bpfModule, err := bpf.NewModuleFromFile("probe.bpf.o")
 	if err != nil {
 		os.Exit(-1)
 	}
 	defer bpfModule.Close()
 
-	bpfModule.BPFLoadObject()
-	prog, err := bpfModule.GetProgram("kprobe__sys_execve")
-	if err != nil {
-		os.Exit(-1)
-	}
+	/*
+		bpfModule.BPFLoadObject()
+		prog, err := bpfModule.GetProgram("kprobe__sys_execve")
+		if err != nil {
+			os.Exit(-1)
+		}
 
-	USE(prog)
+		USE(prog)
 
-	/*_, err = prog.AttachKprobe("__x64_sys_execve")
-	if err != nil {
-		os.Exit(-1)
-	}
+		_, err = prog.AttachKprobe("__x64_sys_execve")
+		if err != nil {
+			os.Exit(-1)
+		}
 	*/
 
 	prog2, err := bpfModule.GetProgram("kprobe__vfs_rename")
@@ -77,20 +78,21 @@ func main() {
 
 	for {
 		event := <-eventsChannel
-		//process id
+		// process id
 		pid := int(binary.LittleEndian.Uint32(event[0:4])) // Treat first 4 bytes as LittleEndian Uint32
-		//user id
+		// user id
 		uid := int(binary.LittleEndian.Uint32(event[4:8]))
-		//process name
-		comm := string(bytes.TrimRight(event[8:200], "\x00")) // Remove excess 0's from comm, treat as string
-		msg := string(bytes.TrimRight(event[200:], "\x00"))   // Remove excess 0's from comm, treat as string
+		// process name
+		// remove excess 0's from comm, treat as string
+		comm := string(bytes.TrimRight(event[8:200], "\x00"))
+		// remove excess 0's from comm, treat as string
+		msg := string(bytes.TrimRight(event[200:], "\x00"))
 
 		xevent.pid = pid
 		xevent.uid = uid
 		xevent.pname = comm
 		xevent.msg = msg
 
-		//fmt.Printf("|%d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg);
 		putMsgInStream(ociMessageEndpoint, ociStreamOcid, &xevent)
 	}
 

@@ -10,6 +10,7 @@ struct {
 
 long ringbuffer_flags = 0;
 
+/*
 SEC("kprobe/sys_execve")
 int kprobe__sys_execve(struct pt_regs *ctx, void * pic )
 
@@ -33,6 +34,7 @@ int kprobe__sys_execve(struct pt_regs *ctx, void * pic )
     bpf_ringbuf_submit(process, ringbuffer_flags);
     return 0;
 }
+*/
 
 
 SEC("kprobe/vfs_rename")
