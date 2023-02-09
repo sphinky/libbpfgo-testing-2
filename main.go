@@ -66,7 +66,7 @@ func main() {
 		// remove excess 0's from comm, treat as string
 		comm := string(bytes.TrimRight(event[8:200], "\x00"))
 		// remove excess 0's from comm, treat as string
-		msg := string(bytes.TrimRight(event[200:], "\x00"))
+		msg := string(bytes.TrimRight(event[200:300], "\x00"))
 
 		ebpfEvent.pid = pid
 		ebpfEvent.uid = uid
