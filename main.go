@@ -96,7 +96,7 @@ func putMsgInStream(streamEndpoint string, streamOcid string, ebpfEvent *EbpfEve
 			Messages: []streaming.PutMessagesDetailsEntry{
 				{
 					Key:   []byte(strconv.Itoa(ebpfEvent.pid)),
-					Value: []byte(strconv.Itoa(ebpfEvent.pid) + "|" + strconv.Itoa(ebpfEvent.uid) + "|" + ebpfEvent.pname + "|" + ebpfEvent.msg + "|"),
+					Value: []byte(strconv.Itoa(ebpfEvent.pid) + "|" + strconv.Itoa(ebpfEvent.uid) + "|" + ebpfEvent.pname + "|" + ebpfEvent.msg),
 				},
 			},
 		},
