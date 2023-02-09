@@ -1,4 +1,4 @@
-package main_stdout
+package main
 
 import "C"
 
@@ -10,14 +10,7 @@ import (
 	"os"
 )
 
-type EbpfEvent struct {
-	pid   int
-	uid   int
-	pname string
-	msg   string
-}
-
-func main() {
+func main_stdout() {
 
 	bpfModule, err := bpf.NewModuleFromFile("probe.bpf.o")
 	if err != nil {
