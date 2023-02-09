@@ -38,7 +38,7 @@ func main() {
 	rb.Start()
 
 	fmt.Printf("----------------------------------------------------------\n")
-	fmt.Printf("| %v \t| %v \t| %v \t| %v \t|\n", "PID", "UID", "Name", "MSG")
+	fmt.Printf("| %v \t \t| %v \t \t| %v \t \t| %v \t \t|\n", "PID", "UID", "Name", "MSG")
 
 	for {
 		event := <-eventsChannel
@@ -52,7 +52,7 @@ func main() {
 		// Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[200:], "\x00"))
 
-		fmt.Printf("| %d \t| %d \t| %v \t| %v \t|\n", pid, uid, comm, msg)
+		fmt.Printf("| %d \t \t| %d \t \t| %v \t \t| %v \t \t|\n", pid, uid, comm, msg)
 	}
 
 	rb.Stop()
