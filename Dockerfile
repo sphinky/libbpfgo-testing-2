@@ -34,4 +34,4 @@ COPY * ./
 RUN make all 
 
 # Execute eBPF program.
-CMD ["/bin/bash", "-c", "./main_stdout"]
+CMD ["/bin/bash", "-c", "./main"]

@@ -6,18 +6,14 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
-	//"fmt"
 	"os"
-
 	"strconv"
 
 	bpf "github.com/aquasecurity/tracee/libbpfgo"
-
 	common "github.com/oracle/oci-go-sdk/v65/common"
+	auth "github.com/oracle/oci-go-sdk/v65/common/auth"
 	helpers "github.com/oracle/oci-go-sdk/v65/example/helpers"
 	streaming "github.com/oracle/oci-go-sdk/v65/streaming"
-
-	auth "github.com/oracle/oci-go-sdk/v65/common/auth"
 )
 
 type EbpfEvent struct {
@@ -38,20 +34,6 @@ func main() {
 	}
 	defer bpfModule.Close()
 
-	/*
-		prog, err := bpfModule.GetProgram("kprobe__sys_execve")
-		if err != nil {
-			os.Exit(-1)
-		}
-
-		USE(prog)
-
-		_, err = prog.AttachKprobe("__x64_sys_execve")
-		if err != nil {
-			os.Exit(-1)
-		}
-	*/
-
 	bpfModule.BPFLoadObject()
 	prog2, err := bpfModule.GetProgram("kprobe__vfs_rename")
 	if err != nil {
@@ -71,15 +53,13 @@ func main() {
 
 	rb.Start()
 
-	//fmt.Printf("----------------------------------------------------------\n");
-	//fmt.Printf("| %d \t| %d \t| %v \t| %v \t|\n", "PID", "UID", "Name", "MSG"");
-
-	xevent := EbpfEvent{}
+	ebpfEvent := EbpfEvent{}
 
 	for {
 		event := <-eventsChannel
 		// process id
-		pid := int(binary.LittleEndian.Uint32(event[0:4])) // Treat first 4 bytes as LittleEndian Uint32
+		// treat first 4 bytes as LittleEndian Uint32
+		pid := int(binary.LittleEndian.Uint32(event[0:4]))
 		// user id
 		uid := int(binary.LittleEndian.Uint32(event[4:8]))
 		// process name
@@ -88,21 +68,19 @@ func main() {
 		// remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[200:], "\x00"))
 
-		xevent.pid = pid
-		xevent.uid = uid
-		xevent.pname = comm
-		xevent.msg = msg
+		ebpfEvent.pid = pid
+		ebpfEvent.uid = uid
+		ebpfEvent.pname = comm
+		ebpfEvent.msg = msg
 
-		putMsgInStream(ociMessageEndpoint, ociStreamOcid, &xevent)
+		putMsgInStream(ociMessageEndpoint, ociStreamOcid, &ebpfEvent)
 	}
 
 	rb.Stop()
 	rb.Close()
 }
 
-func USE(x interface{}) {}
-
-func putMsgInStream(streamEndpoint string, streamOcid string, xevent *EbpfEvent) {
+func putMsgInStream(streamEndpoint string, streamOcid string, ebpfEvent *EbpfEvent) {
 
 	provider, err := auth.InstancePrincipalConfigurationProvider()
 	helpers.FatalIfError(err)
@@ -111,25 +89,25 @@ func putMsgInStream(streamEndpoint string, streamOcid string, xevent *EbpfEvent)
 	helpers.FatalIfError(err)
 
 	// fmt.Println("Stream endpoint for put msg api is: " + streamEndpoint)
-
-	// Create a request and dependent object(s).
-
+	// create a streaming request and dependent object(s).
 	putMsgReq := streaming.PutMessagesRequest{
 		StreamId: common.String(streamOcid),
 		PutMessagesDetails: streaming.PutMessagesDetails{
 			Messages: []streaming.PutMessagesDetailsEntry{
 				{
-					Key:   []byte(strconv.Itoa(xevent.pid)),
-					Value: []byte(strconv.Itoa(xevent.pid) + "|" + strconv.Itoa(xevent.uid) + "|" + xevent.pname + "|" + xevent.msg + "|")}}}}
-
-	// Send the request using the service client
-
-	//fmt.Println("Event sent to stream : " + strconv.Itoa(xevent.pid) + "|" + strconv.Itoa(xevent.uid) + "|" + xevent.pname + "|" + xevent.msg + "|")
+					Key:   []byte(strconv.Itoa(ebpfEvent.pid)),
+					Value: []byte(strconv.Itoa(ebpfEvent.pid) + "|" + strconv.Itoa(ebpfEvent.uid) + "|" + ebpfEvent.pname + "|" + ebpfEvent.msg + "|"),
+				},
+			},
+		},
+	}
 
 	putMsgResp, err := streamClient.PutMessages(context.Background(), putMsgReq)
 	helpers.FatalIfError(err)
 	USE(putMsgResp)
 
-	//Retrieve value from the response.
-	//fmt.Println(putMsgResp)
+	// retrieve value from the response.
+	// fmt.Println(putMsgResp)
 }
+
+func USE(x interface{}) {}
