@@ -37,10 +37,10 @@ func main() {
 
 	rb.Start()
 
-	fmt.Printf("-----------------------------------------------------------------------------\n")
-	fmt.Printf("| %-10v \t| %-10v \t| %-20s \t| %-30s\n", "PID", "UID", "Name", "MSG")
-	fmt.Printf("-----------------------------------------------------------------------------\n")
-	//		   "| %-10d \t| %-10d \t| %-20s \t| %-30s \t|\n"
+	fmt.Printf("----------------------------------------------------------------------------------\n")
+	fmt.Printf(" %-10v \t| %-10v \t| %-20s \t| %-30s\n", "PID", "UID", "Name", "MSG")
+	fmt.Printf("----------------------------------------------------------------------------------\n")
+
 	for {
 		event := <-eventsChannel
 		// process id
@@ -53,7 +53,7 @@ func main() {
 		// Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[200:400], "\x00"))
 
-		fmt.Printf("| %-10d \t| %-10d \t| %-20s \t| %-30s\n", pid, uid, comm, msg)
+		fmt.Printf(" %-10d \t| %-10d \t| %-20s \t| %-30s\n", pid, uid, comm, msg)
 	}
 
 	rb.Stop()
