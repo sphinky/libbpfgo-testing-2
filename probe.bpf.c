@@ -36,9 +36,8 @@ int kprobe__sys_execve(struct pt_regs *ctx, void * pic )
 }
 */
 
-
 SEC("kprobe/vfs_rename")
-int kprobe__vfs_rename(struct pt_regs *ctx )
+int kprobe__vfs_rename(struct pt_regs *ctx)
 {
     char OPRN[10] = "WRITE";
 

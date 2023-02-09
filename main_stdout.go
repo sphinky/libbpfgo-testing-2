@@ -18,6 +18,7 @@ func main_stdout() {
 	}
 	defer bpfModule.Close()
 
+	bpfModule.BPFLoadObject()
 	prog2, err := bpfModule.GetProgram("kprobe__vfs_rename")
 	if err != nil {
 		os.Exit(-1)
