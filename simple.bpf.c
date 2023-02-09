@@ -35,7 +35,6 @@ int kprobe__sys_execve(struct pt_regs *ctx, void * pic )
 }
 
 
-
 SEC("kprobe/vfs_rename")
 int kprobe__vfs_rename(struct pt_regs *ctx )
 {
@@ -60,4 +59,3 @@ int kprobe__vfs_rename(struct pt_regs *ctx )
     bpf_ringbuf_submit(process, ringbuffer_flags);
     return 0;
 }
-
