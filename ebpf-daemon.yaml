@@ -29,8 +29,6 @@ spec:
         volumeMounts:
         - mountPath: /sys/kernel/debug
           name: debug
-      hostPID: true
-      hostNetwork: true
       imagePullSecrets:
       - name: ocirsecret
       volumes:
