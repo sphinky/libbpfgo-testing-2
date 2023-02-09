@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-func main_stdout() {
+func main() {
 
 	bpfModule, err := bpf.NewModuleFromFile("probe.bpf.o")
 	if err != nil {
