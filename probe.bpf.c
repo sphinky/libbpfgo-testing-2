@@ -13,7 +13,6 @@ long ringbuffer_flags = 0;
 /*
 SEC("kprobe/sys_execve")
 int kprobe__sys_execve(struct pt_regs *ctx, void * pic )
-
 {
     __u64 id = bpf_get_current_pid_tgid();
     __u32 tgid = id >> 32;
@@ -39,7 +38,6 @@ int kprobe__sys_execve(struct pt_regs *ctx, void * pic )
 SEC("kprobe/vfs_rename")
 int kprobe__vfs_rename(struct pt_regs *ctx)
 {
-    char OPRN[10] = "WRITE";
 
     __u64 id = bpf_get_current_pid_tgid();
     __u32 tgid = id >> 32;

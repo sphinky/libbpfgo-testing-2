@@ -1,4 +1,3 @@
-
 typedef struct process_info {
     int pid;
     int uid;
