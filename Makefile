@@ -10,7 +10,7 @@ go_target: probe.bpf.o main.go
 	CC=gcc CGO_CFLAGS="-I /usr/include/bpf" CGO_LDFLAGS="/usr/lib/x86_64-linux-gnu/libbpf.a" go build main.go -o run_ebpf
 
 stdout: main_stdout.go
-	CC=gcc CGO_CFLAGS="-I /usr/include/bpf" CGO_LDFLAGS="/usr/lib/x86_64-linux-gnu/libbpf.a" go build -o main_stdout.go run_ebpf_stdout
+	CC=gcc CGO_CFLAGS="-I /usr/include/bpf" CGO_LDFLAGS="/usr/lib/x86_64-linux-gnu/libbpf.a" go build main_stdout.go -o run_ebpf_stdout
 
 clean:
 	rm probe.bpf.o run_ebpf run_ebpf_stdout vmlinux.h
