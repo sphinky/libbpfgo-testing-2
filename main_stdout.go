@@ -38,7 +38,7 @@ func main() {
 	rb.Start()
 
 	fmt.Printf("----------------------------------------------------------\n")
-	fmt.Printf("| %10v \t| %10v \t| %30s \t| %30s \t|\n", "PID", "UID", "Name", "MSG")
+	fmt.Printf("| %-10v \t| %-10v \t| %-30s \t| %-30s \t|\n", "PID", "UID", "Name", "MSG")
 	//		   "| %10d \t| %10d \t| %30s \t| %30s \t|\n"
 
 	for {
@@ -53,7 +53,7 @@ func main() {
 		// Remove excess 0's from comm, treat as string
 		msg := string(bytes.TrimRight(event[200:], "\x00"))
 
-		fmt.Printf("| %10d \t| %10d \t| %30s \t| %30s \t|\n", pid, uid, comm, msg)
+		fmt.Printf("| %-10d \t| %-10d \t| %-30s \t| %-30s \t|\n", pid, uid, comm, msg)
 	}
 
 	rb.Stop()
