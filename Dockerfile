@@ -29,8 +29,9 @@ RUN mkdir -p /app
 RUN cp -nr /usr/include/x86_64-linux-gnu/bits/* /usr/include/bits/
 WORKDIR /app
 COPY * ./
+
+# Compile/make eBPF probe and program
 RUN make all 
 
-# Execute build command.
-# CMD ["/bin/bash", "-c","/usr/bin/make all"]
+# Execute eBPF program.
 CMD ["/bin/bash", "-c", "./main"]
