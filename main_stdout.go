@@ -38,7 +38,7 @@ func main() {
 	rb.Start()
 
 	fmt.Printf("----------------------------------------------------------\n")
-	fmt.Printf("| %d \t| %d \t| %v \t| %v \t|\n", "PID", "UID", "Name", "MSG")
+	fmt.Printf("| %v \t| %v \t| %v \t| %v \t|\n", "PID", "UID", "Name", "MSG")
 
 	for {
 		event := <-eventsChannel
