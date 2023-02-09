@@ -64,5 +64,3 @@ func main() {
 	rb.Stop()
 	rb.Close()
 }
-
-func USE(x interface{}) {}
