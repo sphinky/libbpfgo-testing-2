@@ -33,5 +33,5 @@ RUN make all
 
 # Execute build command.
 # CMD ["/bin/bash", "-c","/usr/bin/make all"]
-CMD ["/bin/bash", "-c", "./runebpf"]
+# CMD ["/bin/bash", "-c", "./main"]
 
